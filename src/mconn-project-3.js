@@ -57,9 +57,29 @@ class MconnProject3 extends LitElement {
 
   render() {
     return html`
-      
+    <body>
+<div>
+  
+<div>
+      <audio ref={this.audioRef} src="https://soundboardguy.com/sounds/lebron-james-vine/" onTimeUpdate={this.handleTimeUpdate}>
+      <div className="progress-bar" 
+  
+  </div>
+  );
+}
+</div>
     `;
   }
+  handleTimeUpdate = () => {
+    const audio = this.audioRef.current;
+    const progress = (audio.currentTime / audio.duration) * 100;
+    this.setState({
+      progress: progress
+    });
+  }
+  
 }
+
+
 
 customElements.define('mconn-project-3', MconnProject3);
