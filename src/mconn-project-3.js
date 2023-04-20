@@ -59,14 +59,14 @@ class MconnProject3 extends LitElement {
     return html`
     <body>
 <div>
-  
+  <div>
 <div>
       <audio ref={this.audioRef} src="https://soundboardguy.com/sounds/lebron-james-vine/" onTimeUpdate={this.handleTimeUpdate}>
       <div className="progress-bar" 
-  
-  </div>
+      </div>
   );
 }
+</div>
 </div>
     `;
   }
