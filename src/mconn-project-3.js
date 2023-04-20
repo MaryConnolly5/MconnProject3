@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 
+
 const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
 
 class MconnProject3 extends LitElement {
@@ -50,22 +51,42 @@ class MconnProject3 extends LitElement {
     }
   `;
 
+  .container {
+display: inline-flex;
+align-items: center;
+padding: 5px 5px 5px 0px;
+background: Blue;
+border-radius: 5px;
+min-width: 64px;
+font-size: 18px;
+/*cursor: pointer;*/
+  }
+  .icon-spacing{
+    padding-right: 10px;
+  }
+  ';
+
   constructor() {
     super();
+    this.source = '';
+    this.icon = "av:play-arrow";
+    this.playing = false;
+    this.canPlay = false;
     this.header = 'My app';
   }
 
   render() {
     return html`
     <body>
-<div>
+
   <div>
 <div>
       <audio ref={this.audioRef} src="https://soundboardguy.com/sounds/lebron-james-vine/" onTimeUpdate={this.handleTimeUpdate}>
       <div className="progress-bar" 
-      </div>
+      
   );
 }
+
 </div>
 </div>
     `;
@@ -77,9 +98,4 @@ class MconnProject3 extends LitElement {
       progress: progress
     });
   }
-  
-}
-
-
-
 customElements.define('mconn-project-3', MconnProject3);
