@@ -6,7 +6,12 @@ const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
 class MconnProject3 extends LitElement {
   static properties = {
     header: { type: String },
+    source: { type: String, reflect: true},
+    icon: { type: String},
+    playing: { type: Boolean, reflect: true},
+    canPlay: { type: Boolean, reflect: true}
   }
+}
 
   static styles = css`
     :host {
@@ -22,6 +27,7 @@ class MconnProject3 extends LitElement {
       text-align: center;
       background-color: var(--mconn-project-3-background-color);
     }
+  
 
     main {
       flex-grow: 1;
@@ -76,6 +82,30 @@ font-size: 18px;
   }
 
   render() {
+    handleTimeUpdate(){
+      if(this.shadowRoot.querySelector(".player").ended){
+        this.audioController(false);
+      }
+      var audioDuration = this.shadowRoot.querySelector(".player").duration;
+      var audioCurrentTime = this.shadowRoot.querySelector(".player").currentTime;
+      var progressPercentage = (audioCurrentTime / audioDuration)*100;
+      this.shadowRoot.querySelector(".container").style.background = `linear-gradient(90deg, var(--simple-colors-default-theme-accent-6) 0% ${progressPercentage}%, grey ${progressPercentage}% 100%)`;
+    }
+
+    loadAudio(source) {
+      const audioFile = this.shadowRoot.querySelector('.player');
+      audioFile.src = source;
+      audioFile.load();
+    }
+
+    handlePlaythrough(){
+      setTimeout(() => {
+        console.log("Loading finished");
+        this.canPlay = true;
+        this.audioController(true);
+      }, 500); 
+    }
+    
     return html`
     <body>
 
