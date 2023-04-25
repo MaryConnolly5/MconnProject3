@@ -1,5 +1,9 @@
 import { LitElement, html, css } from 'lit';
-
+import "@lrnwebcomponents/simple-icon/simple-icon.js";
+import "@lrnwebcomponents/simple-icon/lib/simple-icons.js";
+import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
+import "@lrnwebcomponents/hax-iconset/lib/simple-hax-iconset.js";
+import "@lrnwebcomponents/simple-colors/simple-colors.js";
 
 const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
 
@@ -13,100 +17,103 @@ class MconnProject3 extends LitElement {
   }
 }
 
-  static styles = css`
+  static styles = [... super.styles, css`
     :host {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
+      display: inline;
+      vertical-align:middle;
       color: #1a2b42;
       max-width: 960px;
       margin: 0 auto;
-      text-align: center;
-      background-color: var(--mconn-project-3-background-color);
-    }
-  
-
-    main {
-      flex-grow: 1;
     }
 
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
+    .container {
+      display: inline-flex;
       align-items: center;
+      padding: 0.5px 10px 0.5px 0px;
+      background-color: var(--simple-colors-default-theme-pink-2);
+      border-radius: 4px;
+      min-width: 64px;
+      cursor: pointer;
+      font-size: 18px;
+      position: relative;
+      z-index: 1;
     }
 
-    .app-footer a {
-      margin-left: 5px;
+    .progress-bar {
+      height: 100%;
+      background-color: var(--simple-colors-default-theme-pink-5);
+      transition: width 0.1s;
+      position: absolute;
+      border-radius: 4px;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
-  `;
 
-  .container {
-display: inline-flex;
-align-items: center;
-padding: 5px 5px 5px 0px;
-background: Blue;
-border-radius: 5px;
-min-width: 64px;
-font-size: 18px;
-/*cursor: pointer;*/
-  }
-  .icon-spacing{
-    padding-right: 10px;
-  }
-  ';
+    .progress {
+      height: 100%;
+      background-color: var(--simple-colors-default-theme-pink-5);
+      position: absolute;
+      border-radius: 4px;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      animation: progress-bar 1s linear forwards;
+    }
+  `];
+;
 
-  constructor() {
-    super();
-    this.source = '';
+constructor() {
+  super();
+  this.isPlaying = false;
+  this.icon = "av:play-arrow";
+  this.filename = '';
+}
+
+togglePlayPause() {
+  const audio = this.shadowRoot.querySelector('audio');
+if (audio.paused) {
+  audio.play();
+  this.isPlaying = true;
+  this.icon = "av:pause";
+  audio.addEventListener('ended', () => {
+    this.isPlaying = false;
     this.icon = "av:play-arrow";
-    this.playing = false;
-    this.canPlay = false;
-    this.header = 'My app';
+  });
+} else {
+  audio.pause();
+  this.isPlaying = false;
+  this.icon = "av:play-arrow";
+}
+}
+
+updateProgressBar() {
+  const audio = this.shadowRoot.querySelector("audio");
+  const progressBar = this.shadowRoot.querySelector(".progress");
+  if (progressBar) {
+    const progress = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = `${progress}%`;
+    if (!audio.paused) {
+      requestAnimationFrame(() => this.updateProgressBar());
+    }
   }
+}
 
-  render() {
-    handleTimeUpdate(){
-      if(this.shadowRoot.querySelector(".player").ended){
-        this.audioController(false);
-      }
-      var audioDuration = this.shadowRoot.querySelector(".player").duration;
-      var audioCurrentTime = this.shadowRoot.querySelector(".player").currentTime;
-      var progressPercentage = (audioCurrentTime / audioDuration)*100;
-      this.shadowRoot.querySelector(".container").style.background = `linear-gradient(90deg, var(--simple-colors-default-theme-accent-6) 0% ${progressPercentage}%, grey ${progressPercentage}% 100%)`;
-    }
+render() {
+  return html`
+    <div class="container" @click="${this.togglePlayPause}"> 
+    <simple-icon-button icon="${this.icon}"></simple-icon-button>
+    <slot></slot>
+    <audio class="player" src="${this.filename}" @timeupdate="${this.updateProgressBar}"></audio>
+    <div class="progress-bar"></div>
+    <div class="progress"></div>
+  </div>
+  `;
+}
 
-    loadAudio(source) {
-      const audioFile = this.shadowRoot.querySelector('.player');
-      audioFile.src = source;
-      audioFile.load();
-    }
-
-    handlePlaythrough(){
-      setTimeout(() => {
-        console.log("Loading finished");
-        this.canPlay = true;
-        this.audioController(true);
-      }, 500); 
-    }
     
-    return html`
+  const newLocal = `
     <body>
 
   <div>
@@ -120,7 +127,8 @@ font-size: 18px;
 </div>
 </div>
     `;
-  }
+    return htmlnewLocal;
+  
   handleTimeUpdate = () => {
     const audio = this.audioRef.current;
     const progress = (audio.currentTime / audio.duration) * 100;
