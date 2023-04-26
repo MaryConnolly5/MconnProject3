@@ -64,7 +64,7 @@ class MconnProject3 extends LitElement {
   `];
 ;
 
-constructor() {
+constructor() ;{
   super();
   this.isPlaying = false;
   this.icon = "av:play-arrow";
