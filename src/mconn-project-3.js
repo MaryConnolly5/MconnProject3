@@ -1,21 +1,31 @@
 import { LitElement, html, css } from 'lit';
-import "@lrnwebcomponents/simple-icon/simple-icon.js";
-import "@lrnwebcomponents/simple-icon/lib/simple-icons.js";
+import { SimpleColors } from '@lrnwebcomponents/simple-colors';
+
+import '@lrnwebcomponents/simple-icon/simple-icon.js';
+import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
+import '@lrnwebcomponents/simple-colors';
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
-import "@lrnwebcomponents/hax-iconset/lib/simple-hax-iconset.js";
-import "@lrnwebcomponents/simple-colors/simple-colors.js";
-
-const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
-
+export class Project3 extends SimpleColors {
+  static get properties() {
+    return {
+      ...super.properties,
+      paragraph: { type: String, reflect: true },
+      audioFile: { attribute: "audio-file", type: String, reflect: true },
+      isPlaying: { type: Boolean, reflect: true },
+      icon: { type: String, reflect: true },
+      filename: { type: String, reflect: true }
+    }
+  }
+}
 class MconnProject3 extends LitElement {
   static properties = {
     header: { type: String },
-    source: { type: String, reflect: true},
-    icon: { type: String},
-    playing: { type: Boolean, reflect: true},
-    canPlay: { type: Boolean, reflect: true}
+    source: { type: String, reflect: true },
+    icon: { type: String },
+    playing: { type: Boolean, reflect: true },
+    canPlay: { type: Boolean, reflect: true }
   }
-}
+
 
   static styles = [... super.styles, css`
     :host {
@@ -31,7 +41,7 @@ class MconnProject3 extends LitElement {
       display: inline-flex;
       align-items: center;
       padding: 0.5px 10px 0.5px 0px;
-      background-color: var(--simple-colors-default-theme-pink-2);
+      background-color: var(--simple-colors-default-theme-pink-5);
       border-radius: 4px;
       min-width: 64px;
       cursor: pointer;
@@ -62,9 +72,9 @@ class MconnProject3 extends LitElement {
       animation: progress-bar 1s linear forwards;
     }
   `];
-;
+  ;
 
-constructor() ;{
+  constructor(){
   super();
   this.isPlaying = false;
   this.icon = "av:play-arrow";
@@ -73,19 +83,19 @@ constructor() ;{
 
 togglePlayPause() {
   const audio = this.shadowRoot.querySelector('audio');
-if (audio.paused) {
-  audio.play();
-  this.isPlaying = true;
-  this.icon = "av:pause";
-  audio.addEventListener('ended', () => {
+  if (audio.paused) {
+    audio.play();
+    this.isPlaying = true;
+    this.icon = "av:pause";
+    audio.addEventListener('ended', () => {
+      this.isPlaying = false;
+      this.icon = "av:play-arrow";
+    });
+  } else {
+    audio.pause();
     this.isPlaying = false;
     this.icon = "av:play-arrow";
-  });
-} else {
-  audio.pause();
-  this.isPlaying = false;
-  this.icon = "av:play-arrow";
-}
+  }
 }
 
 updateProgressBar() {
@@ -102,38 +112,21 @@ updateProgressBar() {
 
 render() {
   return html`
-    <div class="container" @click="${this.togglePlayPause}"> 
-    <simple-icon-button icon="${this.icon}"></simple-icon-button>
-    <slot></slot>
-    <audio class="player" src="${this.filename}" @timeupdate="${this.updateProgressBar}"></audio>
-    <div class="progress-bar"></div>
-    <div class="progress"></div>
-  </div>
+    <div class="container" @click="${this.togglePlayPause}">
+      <simple-icon-button icon="${this.icon}"></simple-icon-button>
+      <slot></slot>
+      <audio class="player" src="${this.filename}" @timeupdate="${this.updateProgressBar}"></audio>
+      <div class="progress-bar"></div>
+      <div class="progress"></div>
+    </div>
   `;
 }
-
-    
-  const newLocal = `
-    <body>
-
-  <div>
-<div>
-      <audio ref={this.audioRef} src="https://soundboardguy.com/sounds/lebron-james-vine/" onTimeUpdate={this.handleTimeUpdate}>
-      <div className="progress-bar" 
-      
-  );
+handleTimeUpdate = () => {
+  const audio = this.audioRef.current;
+  const progress = (audio.currentTime / audio.duration) * 100;
+  this.setState({
+    progress: progress
+  });
 }
-
-</div>
-</div>
-    `;
-    return htmlnewLocal;
-  
-  handleTimeUpdate = () => {
-    const audio = this.audioRef.current;
-    const progress = (audio.currentTime / audio.duration) * 100;
-    this.setState({
-      progress: progress
-    });
-  }
+}
 customElements.define('mconn-project-3', MconnProject3);
