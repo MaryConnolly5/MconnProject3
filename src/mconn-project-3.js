@@ -5,7 +5,8 @@ import '@lrnwebcomponents/simple-icon/simple-icon.js';
 import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-colors';
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
-export class Project3 extends SimpleColors {
+
+export class mconnProject3 extends SimpleColors {
   static get properties() {
     return {
       ...super.properties,
@@ -17,15 +18,6 @@ export class Project3 extends SimpleColors {
     }
   }
 }
-class MconnProject3 extends LitElement {
-  static properties = {
-    header: { type: String },
-    source: { type: String, reflect: true },
-    icon: { type: String },
-    playing: { type: Boolean, reflect: true },
-    canPlay: { type: Boolean, reflect: true }
-  }
-
 
   static styles = [... super.styles, css`
     :host {
@@ -74,7 +66,7 @@ class MconnProject3 extends LitElement {
   `];
   ;
 
-  constructor(){
+  constructor() {
   super();
   this.isPlaying = false;
   this.icon = "av:play-arrow";
@@ -122,5 +114,14 @@ render() {
   `;
 }
 
+
+handleTimeUpdate = () => {
+  const audio = this.audioRef.current;
+  const progress = (audio.currentTime / audio.duration) * 100;
+  this.setState({
+    progress: progress
+  });
 }
+
+
 customElements.define('mconn-project-3', MconnProject3);
