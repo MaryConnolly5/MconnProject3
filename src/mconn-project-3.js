@@ -6,7 +6,7 @@ import '@lrnwebcomponents/simple-icon/lib/simple-icons.js';
 import '@lrnwebcomponents/simple-colors';
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
 
-export class mconnProject3 extends SimpleColors {
+export class MconnProject3 extends SimpleColors {
   static get properties() {
     return {
       ...super.properties,
