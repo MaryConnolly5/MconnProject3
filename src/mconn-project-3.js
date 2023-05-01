@@ -17,7 +17,7 @@ export class mconnProject3 extends SimpleColors {
       filename: { type: String, reflect: true }
     }
   }
-}
+
 
   static styles = [... super.styles, css`
     :host {
@@ -27,6 +27,7 @@ export class mconnProject3 extends SimpleColors {
       color: #1a2b42;
       max-width: 960px;
       margin: 0 auto;
+
     }
 
     .container {
@@ -73,6 +74,7 @@ export class mconnProject3 extends SimpleColors {
   this.filename = '';
 }
 
+
 togglePlayPause() {
   const audio = this.shadowRoot.querySelector('audio');
   if (audio.paused) {
@@ -104,13 +106,13 @@ updateProgressBar() {
 
 render() {
   return html`
-    <div class="container" @click="${this.togglePlayPause}">
-      <simple-icon-button icon="${this.icon}"></simple-icon-button>
-      <slot></slot>
-      <audio class="player" src="${this.filename}" @timeupdate="${this.updateProgressBar}"></audio>
-      <div class="progress-bar"></div>
-      <div class="progress"></div>
-    </div>
+    <div class="container" @click="${this.togglePlayPause}"> 
+    <simple-icon-button icon="${this.icon}"></simple-icon-button>
+    <slot></slot>
+    <audio class="player" src="${this.filename}" @timeupdate="${this.updateProgressBar}"></audio>
+    <div class="progress-bar"></div>
+    <div class="progress"></div>
+  </div>
   `;
 }
 
@@ -119,9 +121,9 @@ handleTimeUpdate = () => {
   const audio = this.audioRef.current;
   const progress = (audio.currentTime / audio.duration) * 100;
   this.setState({
-    progress: progress
+  progress: progress
   });
 }
 
-
+}
 customElements.define('mconn-project-3', MconnProject3);
