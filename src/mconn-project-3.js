@@ -41,7 +41,7 @@ class MconnProject3 extends LitElement {
       display: inline-flex;
       align-items: center;
       padding: 0.5px 10px 0.5px 0px;
-      background-color: var(--simple-colors-default-theme-pink-5);
+      background-color: var(--simple-colors-default-theme-pink-2);
       border-radius: 4px;
       min-width: 64px;
       cursor: pointer;
@@ -52,7 +52,7 @@ class MconnProject3 extends LitElement {
 
     .progress-bar {
       height: 100%;
-      background-color: var(--simple-colors-default-theme-pink-5);
+      background-color: var(--simple-colors-default-theme-pink-2);
       transition: width 0.1s;
       position: absolute;
       border-radius: 4px;
@@ -63,7 +63,7 @@ class MconnProject3 extends LitElement {
 
     .progress {
       height: 100%;
-      background-color: var(--simple-colors-default-theme-pink-5);
+      background-color: var(--simple-colors-default-theme-pink-2);
       position: absolute;
       border-radius: 4px;
       top: 0;
@@ -121,12 +121,6 @@ render() {
     </div>
   `;
 }
-handleTimeUpdate = () => {
-  const audio = this.audioRef.current;
-  const progress = (audio.currentTime / audio.duration) * 100;
-  this.setState({
-    progress: progress
-  });
-}
+
 }
 customElements.define('mconn-project-3', MconnProject3);
