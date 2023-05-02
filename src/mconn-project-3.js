@@ -34,7 +34,7 @@ export class MconnProject3 extends SimpleColors {
       display: inline-flex;
       align-items: center;
       padding: 0.5px 10px 0.5px 0px;
-      background-color: var(--simple-colors-default-theme-pink-2);
+      background-color: var(--simple-colors-default-theme-blue-2);
       border-radius: 4px;
       min-width: 64px;
       cursor: pointer;
