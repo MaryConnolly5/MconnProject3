@@ -35,10 +35,7 @@ export default {
   src: 'assets',
   dest: 'dist',
 },
-{
-  src: 'node_modules/@lrnwebcomponents/hax-iconset/lib/svgs',
-  dest: 'dist',
-}
+
 ],
 }),
 /** Resolve bare module imports */
