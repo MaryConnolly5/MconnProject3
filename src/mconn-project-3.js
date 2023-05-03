@@ -38,6 +38,7 @@ export class MconnProject3 extends SimpleColors {
       border-radius: 4px;
       min-width: 64px;
       cursor: pointer;
+      
       font-size: 18px;
       position: relative;
       z-index: 1;
