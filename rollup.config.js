@@ -18,22 +18,39 @@ export default {
   preserveEntrySignatures: false,
 
   plugins: [
-    /** Enable using HTML as rollup entrypoint */
+ /** Enable using HTML as rollup entrypoint */
     html({
       minify: true,
       injectServiceWorker: true,
       serviceWorkerPath: 'dist/sw.js',
     }),
-    /** Resolve bare module imports */
-    nodeResolve(),
-    /** Minify JS, compile JS to a lower language target */
+ /** Resolve bare module imports */
+ copy({
+  targets: [
+ {
+  src: 'node_modules/@lrnwebcomponents/simple-icon/lib/svgs',
+  dest: 'dist',
+},
+{
+  src: 'assets',
+  dest: 'dist',
+},
+{
+  src: 'node_modules/@lrnwebcomponents/hax-iconset/lib/svgs',
+  dest: 'dist',
+}
+],
+}),
+/** Resolve bare module imports */
+nodeResolve(),
+ /** Minify JS, compile JS to a lower language target */
     esbuild({
       minify: true,
       target: ['chrome64', 'firefox67', 'safari11.1'],
     }),
-    /** Bundle assets references via import.meta.url */
+  
     importMetaAssets(),
-    /** Minify html and css tagged template literals */
+
     babel({
       plugins: [
         [
